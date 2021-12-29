@@ -138,14 +138,27 @@ TSet TSet::operator~(void) // дополнение
 
 // перегрузка ввода/вывода
 
-istream &operator>>(istream &istr, TSet &s) // ввод
+istream& operator>>(istream& istr, TSet& s) // ввод
 {
-    istr >> s.BitField;
+    int element;
+    while (istr >> element) {
+        if (element >= s.MaxPower)
+            throw runtime_error("Error Limit");
+        s.InsElem(element);
+    }
+
     return istr;
 }
 
-ostream& operator<<(ostream &ostr, const TSet &s) // вывод
+ostream& operator<<(ostream& ostr, const TSet& s) // вывод
 {
-    ostr << s.BitField;
+    for (size_t i = 0; i < s.MaxPower; ++i)
+    {
+        if (s.BitField.GetBit(i))
+            ostr << i;
+        if (i + 1 < s.MaxPower) ostr << " ";
+
+    }
+
     return ostr;
 }
